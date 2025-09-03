@@ -1,0 +1,1 @@
+ALTER TABLE tb_fornecedor ADD COLUMN tipo_pessoa VARCHAR(1) NOT NULL;
