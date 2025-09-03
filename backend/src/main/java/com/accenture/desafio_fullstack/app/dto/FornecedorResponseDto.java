@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class FornecedorResponseDTO {
+public class FornecedorResponseDto {
 
 	private Long id;
 	private String nome;
