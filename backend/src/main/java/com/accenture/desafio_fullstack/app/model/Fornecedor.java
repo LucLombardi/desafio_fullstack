@@ -1,6 +1,8 @@
 package com.accenture.desafio_fullstack.app.model;
 
 import java.time.LocalDate;
+import java.time.Period;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.accenture.desafio_fullstack.app.enums.TipoPessoa;
@@ -53,7 +55,22 @@ public class Fornecedor {
 	    @JoinColumn(name = "endereco_id", referencedColumnName = "id")
 	    private Endereco endereco;
 	    
-	   
+	public void setEmpresa(Empresa empresa ) {
+		this.empresas.add(empresa);
+	}
+	
+	public void removeEmpresa(Empresa empresa ) {
+		this.empresas.remove(empresa);
+	}
+	
+	public Boolean temEmpresa(Empresa empresa ) {
+		return this.empresas.contains(empresa);
+	}
+	
+	
+
+
+	  
 	    
 
 }

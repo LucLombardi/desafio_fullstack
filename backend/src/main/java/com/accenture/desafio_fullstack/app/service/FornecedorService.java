@@ -120,16 +120,7 @@ public class FornecedorService {
 		fornecedorRepository.deleteById(id);
 	}
 
-	private boolean isMenorDeIdade(LocalDate dataNascimento) {
-		if (dataNascimento == null) {
-			throw new RegraDeNegocioException("Informar o a data de Nacimento.");
-		}
-
-		if (dataNascimento.isAfter(LocalDate.now())) {
-			throw new RegraDeNegocioException("Data de nascimento não pode ser futura");
-		}
-		return Period.between(dataNascimento, LocalDate.now()).getYears() < 18;
-	}
+	
 	
 	
 	private void validarDadosPessoaFisica(FornecedorRequestDTO dto) {
@@ -148,11 +139,6 @@ public class FornecedorService {
         }
 
    
-        if ("PR".equals(dto.getUf()) && isMenorDeIdade(dto.getDataNascimento())) {
-            throw new RegraDeNegocioException("Fornecedor do Paraná não pode ser menor de idade");
-        }
-        
-
     }
 
 }
