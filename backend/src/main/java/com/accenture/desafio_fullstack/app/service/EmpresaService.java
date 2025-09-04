@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.accenture.desafio_fullstack.app.domain.mapper.EmpresaMapper;
 import com.accenture.desafio_fullstack.app.dto.EmpresaRequestDTO;
 import com.accenture.desafio_fullstack.app.dto.EmpresaResponseDto;
+import com.accenture.desafio_fullstack.app.exception.RecursoNaoEncontradoException;
 import com.accenture.desafio_fullstack.app.model.Empresa;
 import com.accenture.desafio_fullstack.app.repository.EmpresaRepository;
 
@@ -41,19 +42,19 @@ public class EmpresaService {
 	public EmpresaResponseDto buscarEmpresaPorId(Long id) {
 
 		Empresa empresaExistente = empresaRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Empresa não encontrada com ID: " + id));
+				.orElseThrow(() -> new RecursoNaoEncontradoException("Empresa",id));
 
 		return EmpresaMapper.toDTO(empresaExistente);
 	}
 
 	@Transactional
 	public EmpresaResponseDto atualizarEmpresa(Long id, EmpresaRequestDTO empresaRequestDTO) {
-		Empresa empresaExistente = empresaRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Empresa não encontrada para atualização: " + id));
+		Empresa empresa = empresaRepository.findById(id)
+				.orElseThrow(() -> new RecursoNaoEncontradoException("Empresa",id));
 
-		 EmpresaMapper.updateToEntity(empresaRequestDTO, empresaExistente);
+		 EmpresaMapper.updateToEntity(empresaRequestDTO, empresa);
 
-		Empresa empresaAtualizada = empresaRepository.save(empresaExistente);
+		Empresa empresaAtualizada = empresaRepository.save(empresa);
 
 
 		return EmpresaMapper.toDTO(empresaAtualizada);
@@ -62,7 +63,7 @@ public class EmpresaService {
 	@Transactional
 	public void deletarEmpresa(Long id) {
 		if (!empresaRepository.existsById(id)) {
-			throw new RuntimeException("Empresa não encontrada para exclusão: " + id);
+			throw new RecursoNaoEncontradoException("Empresa",id);
 		}
 		empresaRepository.deleteById(id);
 	}
