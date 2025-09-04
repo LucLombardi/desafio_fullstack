@@ -26,12 +26,29 @@ public class FornecedorService {
 
 		this.fornecedorRepository = fornecedorRepository;
 	}
+	
+	public Page<FornecedorResponseDto> ListarTodosOsFornecedores(Pageable pageable) {
+
+		Page<Fornecedor> fornecedores;
+
+		fornecedores = fornecedorRepository.findAll(pageable);
+
+		if (fornecedores.isEmpty()) {
+
+			throw new RecursoNaoEncontradoException("Não foi encontrado nenhum fornecedor");
+
+		}
+
+		return fornecedores.map(FornecedorMapper::toDTO);
+	}
+	
+	
 
 	public Page<FornecedorResponseDto> listNome(String nome, Pageable pageable) {
 
 		Page<Fornecedor> fornecedores;
 		if (nome == null || nome.trim().isEmpty()) {
-			throw new RuntimeException("incluir uma Exception melhor");
+			throw new RegraDeNegocioException("Nome deve ser preenchido");
 		}
 
 		fornecedores = fornecedorRepository.findByNomeContainingAllIgnoreCase(nome, pageable);
