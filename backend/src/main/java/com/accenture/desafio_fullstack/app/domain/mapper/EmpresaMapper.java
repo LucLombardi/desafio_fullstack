@@ -4,7 +4,6 @@ import com.accenture.desafio_fullstack.app.dto.EmpresaRequestDTO;
 import com.accenture.desafio_fullstack.app.dto.EmpresaResponseDto;
 import com.accenture.desafio_fullstack.app.model.Empresa;
 import com.accenture.desafio_fullstack.app.model.Endereco;
-import com.accenture.desafio_fullstack.app.model.Fornecedor;
 
 public class EmpresaMapper {
 
