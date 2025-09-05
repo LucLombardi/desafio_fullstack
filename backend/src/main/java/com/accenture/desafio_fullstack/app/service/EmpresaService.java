@@ -1,5 +1,7 @@
 package com.accenture.desafio_fullstack.app.service;
 
+import java.io.Serializable;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,8 +15,13 @@ import com.accenture.desafio_fullstack.app.model.Empresa;
 import com.accenture.desafio_fullstack.app.repository.EmpresaRepository;
 
 @Service
-public class EmpresaService {
+public class EmpresaService implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private final EmpresaRepository empresaRepository;
 
 	public EmpresaService(EmpresaRepository empresaRepository) {

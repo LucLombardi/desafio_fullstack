@@ -1,5 +1,6 @@
 package com.accenture.desafio_fullstack.app.service;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -16,8 +17,13 @@ import com.accenture.desafio_fullstack.app.repository.FornecedorRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class FornecedorEmpresaService {
+public class FornecedorEmpresaService implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private final EmpresaRepository empresaRepository;
 	private final FornecedorRepository fornecedorRepository;
 	

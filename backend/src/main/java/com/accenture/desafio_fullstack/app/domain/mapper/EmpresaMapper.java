@@ -20,6 +20,7 @@ public class EmpresaMapper {
 		endereco.setBairro(dto.getBairro());
 		endereco.setLocalidade(dto.getLocalidade());
 		endereco.setUf(dto.getUf());
+		endereco.setEstado(dto.getUf());
 
 		empresa.setEndereco(endereco);
 		return empresa;
@@ -38,6 +39,7 @@ public class EmpresaMapper {
 		empresa.getEndereco().setBairro(dto.getBairro());
 		empresa.getEndereco().setLocalidade(dto.getLocalidade());
 		empresa.getEndereco().setUf(dto.getUf());
+		empresa.getEndereco().setEstado(dto.getUf());
 
 
 	}

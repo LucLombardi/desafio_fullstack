@@ -10,6 +10,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
+import java.io.Serializable;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -21,9 +24,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/empresas")
 @RequiredArgsConstructor
 @Tag(name = "Empresas", description = "API para gerenciamento de empresas")
-public class EmpresaController {
+public class EmpresaController implements Serializable{
 
-    private final EmpresaService empresaService;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	
+	private final EmpresaService empresaService;
 
     @PostMapping
     @Operation(summary = "Criar nova empresa", description = "Cria uma nova empresa no sistema")
@@ -33,7 +42,7 @@ public class EmpresaController {
         @ApiResponse(responseCode = "409", description = "CNPJ já cadastrado")
     })
     public ResponseEntity<EmpresaResponseDto> criarEmpresa(
-            @Valid @RequestBody EmpresaRequestDTO empresaRequest) {
+             @Valid @RequestBody EmpresaRequestDTO empresaRequest) {
         
         EmpresaResponseDto empresaCriada = empresaService.criarEmpresa(empresaRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(empresaCriada);

@@ -24,6 +24,7 @@ public class FornecedorMapper {
 	        endereco.setBairro(dto.getBairro());
 	        endereco.setLocalidade(dto.getLocalidade());
 	        endereco.setUf(dto.getUf());
+	        endereco.setEstado(dto.getUf());
 	        
 	        fornecedor.setEndereco(endereco);
 	        return fornecedor;
@@ -46,6 +47,7 @@ public class FornecedorMapper {
 	        fornecedor.getEndereco().setBairro(dto.getBairro());
 	        fornecedor.getEndereco().setLocalidade(dto.getLocalidade());
 	        fornecedor.getEndereco().setUf(dto.getUf());
+	        fornecedor.getEndereco().setEstado(dto.getUf());
 
 	    }
 

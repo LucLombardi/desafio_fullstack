@@ -1,5 +1,7 @@
 package com.accenture.desafio_fullstack.app.controller;
 
+import java.io.Serializable;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,23 +18,35 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
-import lombok.RequiredArgsConstructor;
+
 
 @RestController
 
 @RequestMapping("/api/fornecedor-empresa")
-@RequiredArgsConstructor
 @Tag(name = "Fornecedor-Empresa", description = "Gerenciamento de vínculos entre Fornecedores e Empresas")
-public class FornecedorEmpresaController {
+public class FornecedorEmpresaController  implements Serializable{
 	
-    private final FornecedorEmpresaService fornecedorEmpresaService;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	
+	
+	private final FornecedorEmpresaService fornecedorEmpresaService;
+	
     
-    
-    @PostMapping("/vincular")
+    public FornecedorEmpresaController(FornecedorEmpresaService fornecedorEmpresaService) {
+
+		this.fornecedorEmpresaService = fornecedorEmpresaService;
+	}
+
+	@PostMapping("/vincular")
     @Operation(summary = "Vincular fornecedor a uma empresa", 
                description = "Cria um vínculo entre um fornecedor e uma empresa")
     @ApiResponses(value = {
@@ -40,15 +54,19 @@ public class FornecedorEmpresaController {
         @ApiResponse(responseCode = "404", description = "Empresa ou fornecedor não encontrado"),
         @ApiResponse(responseCode = "400", description = "Dados inválidos ou fornecedor já vinculado")
     })
-    public ResponseEntity<FornecedorEmpresaResponseDto> vincularFornecedorEmpresa(
+    public ResponseEntity<?> vincularFornecedorEmpresa(
             @Parameter(description = "Dados para vincular fornecedor à empresa")
-            @Valid @RequestBody FornecedorEmpresaRequestDto requestDto) {
+            @RequestBody String requestDto, HttpServletRequest request) {
         
-
+	    System.out.println("=== DEBUG RAW JSON ===");
+	    System.out.println("Content-Type: " + request.getContentType());
+	    System.out.println("Raw JSON recebido: " + requestDto);
+	    System.out.println("======================");
         
-        FornecedorEmpresaResponseDto response = fornecedorEmpresaService.vincular(requestDto);
+        //FornecedorEmpresaResponseDto response = fornecedorEmpresaService.vincular(requestDto);
         
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return  null ;
+        	//ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     
     @DeleteMapping("/desvincular/{fornecedorId}/{empresaId}")

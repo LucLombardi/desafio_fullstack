@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class EmpresaRequestDTO {
 
-	@CNPJ
+	@CNPJ(message = "CNPJ Invalido")
 	@NotNull
 	private String cnpj;
 
