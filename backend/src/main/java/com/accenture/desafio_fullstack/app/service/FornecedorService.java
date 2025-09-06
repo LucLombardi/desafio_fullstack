@@ -12,6 +12,7 @@ import com.accenture.desafio_fullstack.app.domain.mapper.FornecedorMapper;
 import com.accenture.desafio_fullstack.app.dto.FornecedorRequestDTO;
 import com.accenture.desafio_fullstack.app.dto.FornecedorResponseDto;
 import com.accenture.desafio_fullstack.app.enums.TipoPessoa;
+import com.accenture.desafio_fullstack.app.exception.ConflitoException;
 import com.accenture.desafio_fullstack.app.exception.RecursoNaoEncontradoException;
 import com.accenture.desafio_fullstack.app.exception.RegraDeNegocioException;
 import com.accenture.desafio_fullstack.app.model.Fornecedor;
@@ -26,7 +27,7 @@ public class FornecedorService {
 
 		this.fornecedorRepository = fornecedorRepository;
 	}
-	
+
 	public Page<FornecedorResponseDto> ListarTodosOsFornecedores(Pageable pageable) {
 
 		Page<Fornecedor> fornecedores;
@@ -41,8 +42,6 @@ public class FornecedorService {
 
 		return fornecedores.map(FornecedorMapper::toDTO);
 	}
-	
-	
 
 	public Page<FornecedorResponseDto> listNome(String nome, Pageable pageable) {
 
@@ -51,7 +50,7 @@ public class FornecedorService {
 			throw new RegraDeNegocioException("Nome deve ser preenchido");
 		}
 
-		fornecedores = fornecedorRepository.findByNomeContainingAllIgnoreCase(nome, pageable);
+		fornecedores = fornecedorRepository.findByNomeContainingIgnoreCase(nome.trim(), pageable);
 
 		if (fornecedores.isEmpty()) {
 
@@ -98,7 +97,7 @@ public class FornecedorService {
 
 	@Transactional
 	public FornecedorResponseDto atualizarFornecedor(Long id, FornecedorRequestDTO fornecedorRequestDTO) {
-	
+
 		validarDadosPessoaFisica(fornecedorRequestDTO);
 
 		Fornecedor fornecedorExistente = fornecedorRepository.findById(id)
@@ -114,31 +113,33 @@ public class FornecedorService {
 
 	@Transactional
 	public void deletarFornecedor(Long id) {
-		if (!fornecedorRepository.existsById(id)) {
-			throw new RecursoNaoEncontradoException("Fornecedor", id);
+		
+		Fornecedor fornecedor = fornecedorRepository.findById(id)
+				.orElseThrow(() ->  new RecursoNaoEncontradoException("Fornecedor", id));
+		
+		if (fornecedorRepository.contarEmpresas(fornecedor.getId()) > 0) {
+			
+			throw new ConflitoException(String.format("O fornecedor com id %d e nome: %s não pode ser excluída pois esta "
+					+ "atrelado pelo menos uma empresa, desfazer relacionamento", fornecedor.getId(),fornecedor.getNome()));		
 		}
+		
+	
 		fornecedorRepository.deleteById(id);
 	}
 
-	
-	
-	
 	private void validarDadosPessoaFisica(FornecedorRequestDTO dto) {
-        if (dto.getTipoPessoa() != TipoPessoa.FISICA) {
-            return; 
-        }
+		if (dto.getTipoPessoa() != TipoPessoa.FISICA) {
+			return;
+		}
 
-        
-        if (dto.getRg() == null || dto.getRg().trim().isEmpty()) {
-            throw new RegraDeNegocioException("Fornecedor pessoa física deve informar o RG");
-        }
+		if (dto.getRg() == null || dto.getRg().trim().isEmpty()) {
+			throw new RegraDeNegocioException("Fornecedor pessoa física deve informar o RG");
+		}
 
-        
-        if (dto.getDataNascimento() == null) {
-            throw new RegraDeNegocioException("Fornecedor pessoa física deve informar a data de nascimento");
-        }
+		if (dto.getDataNascimento() == null) {
+			throw new RegraDeNegocioException("Fornecedor pessoa física deve informar a data de nascimento");
+		}
 
-   
-    }
+	}
 
 }

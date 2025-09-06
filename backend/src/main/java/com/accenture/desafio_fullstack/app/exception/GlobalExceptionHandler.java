@@ -44,5 +44,15 @@ public class GlobalExceptionHandler {
 
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
 	}
+	
+	@ExceptionHandler(ConflitoException.class)
+	public ResponseEntity<ErrorDetails> handleConflitoException(ConflitoException ex,
+			HttpServletRequest request) {
+
+		ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), HttpStatus.CONFLICT.value(),
+				HttpStatus.CONFLICT.getReasonPhrase(), ex.getMessage(), request.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(errorDetails);
+	}
 
 }

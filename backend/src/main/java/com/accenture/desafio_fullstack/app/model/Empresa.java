@@ -35,7 +35,7 @@ public class Empresa {
 	@Column(length = 120)
 	private String nomeFantasia;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@JoinTable(name = "tb_empresa_fornecedor", joinColumns = @JoinColumn(name = "empresa_id"), inverseJoinColumns = @JoinColumn(name = "fornecedor_id"))
 	private Set<Fornecedor> fornecedores;
 

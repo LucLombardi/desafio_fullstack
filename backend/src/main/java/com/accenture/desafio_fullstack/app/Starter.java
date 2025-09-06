@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.data.web.config.EnableSpringDataWebSupport.PageSerializationMode;
 @EnableFeignClients 
-@EnableSpringDataWebSupport(pageSerializationMode = PageSerializationMode.VIA_DTO)
+//@EnableSpringDataWebSupport(pageSerializationMode = PageSerializationMode.VIA_DTO)
 @SpringBootApplication
 public class Starter {
 

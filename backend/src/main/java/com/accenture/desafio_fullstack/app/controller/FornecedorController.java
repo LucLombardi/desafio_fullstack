@@ -69,7 +69,7 @@ public class FornecedorController {
 
     
 
-    @GetMapping("/{nome}")
+    @GetMapping("/nome/{nome}")
     @Operation(summary = "Listar fornecedores por Nome", description = "Retorna uma lista paginada de fornecedores com opção de filtro por nome")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Lista de fornecedores retornada com sucesso",
@@ -80,7 +80,7 @@ public class FornecedorController {
                 content = @Content)
     })
     public ResponseEntity<PagedModel<EntityModel<FornecedorResponseDto>>> listarFornecedoresPorNome(
-            @RequestParam(required = true) String nome,
+            @PathVariable String nome,
             @Parameter(description = "Parâmetros de paginação")
             Pageable pageable) {
         
@@ -104,7 +104,7 @@ public class FornecedorController {
         return ResponseEntity.ok(pagedModel);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     @Operation(summary = "Buscar fornecedor por ID", description = "Retorna um fornecedor específico pelo seu ID")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Fornecedor encontrado com sucesso",

@@ -7,6 +7,7 @@ import com.accenture.desafio_fullstack.app.enums.TipoPessoa;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +31,7 @@ public class FornecedorRequestDTO {
 
     private String rg;
 
+    @Past(message = "Data de nascimento não pode ser futura")
     private LocalDate dataNascimento;
     
     @NotBlank
