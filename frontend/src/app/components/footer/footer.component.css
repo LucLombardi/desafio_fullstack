@@ -1,0 +1,22 @@
+.rodape {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 5rem;
+    padding-right: 5rem;
+    padding-bottom: 2rem;
+    padding-top: 4rem;
+    text-align: center;
+    background-color: #273623;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+      color: #f0f0e9;
+
+}
+.atendimento ul{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  
+
+}

@@ -1,0 +1,17 @@
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 1rem;
+  display: flex;
+  border: 1px solid #e7e7e7;
+  background-color: #273623;
+}
+
+ul li a {
+  padding: 1rem;
+  text-decoration: none;
+  color:  #f0f0e9;
+}
+ul li a:hover  {
+  background-color: #68686c;
+}
