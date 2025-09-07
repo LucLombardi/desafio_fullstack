@@ -4,6 +4,9 @@ import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { FooterComponent } from './footer/footer.component';
+import { EmpresaCadastroComponent } from './cadastro/empresa-cadastro/empresa-cadastro.component';
+import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EmpresaListagemComponent } from './cadastro/empresa-listagem/empresa-listagem.component';
 
 
 
@@ -11,16 +14,22 @@ import { FooterComponent } from './footer/footer.component';
   declarations: [
     HomeComponent,
     NavBarComponent,
-    FooterComponent
+    FooterComponent,
+    EmpresaCadastroComponent,
+    EmpresaListagemComponent
   ],
   imports: [
     CommonModule,
-    RouterModule 
+    RouterModule,
+    ReactiveFormsModule,
+    FormsModule
+    
   ],
   exports:[
     HomeComponent,
     NavBarComponent,
-    FooterComponent
+    FooterComponent,
+    EmpresaCadastroComponent
   ]
 })
 export class ComponentsModule { }

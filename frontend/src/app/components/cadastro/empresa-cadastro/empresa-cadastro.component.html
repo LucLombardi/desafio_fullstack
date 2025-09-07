@@ -1,0 +1,99 @@
+<form class="cadastro-form" (formGroup)="empresaForm" (ngSubmit)="onSubmit()">
+    <h2>{{ isEditing ? 'Editar Empresa' : 'Cadastrar Nova Empresa' }}</h2>
+
+    <div class="form-section">
+        <label>Dados Básicos <span class="required">*</span></label>
+        <div class="form-row two-cols">
+            <div class="form-group">
+                <input type="text" id="cnpj" name="cnpj" placeholder="CNPJ (apenas números)" formControlName="cnpj"
+                    [class.is-invalid]="empresaForm.get('cnpj')?.invalid && empresaForm.get('cnpj')?.touched">
+                <div class="error-message"
+                    *ngIf="empresaForm.get('cnpj')?.invalid && empresaForm.get('cnpj')?.touched">
+                    CNPJ é obrigatório e deve ter 14 dígitos.
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="text" id="nomeFantasia" name="nomeFantasia" placeholder="Nome Fantasia"
+                    formControlName="nomeFantasia"
+                    [class.is-invalid]="empresaForm.get('nomeFantasia')?.invalid && empresaForm.get('nomeFantasia')?.touched">
+                <div class="error-message"
+                    *ngIf="empresaForm.get('nomeFantasia')?.invalid && empresaForm.get('nomeFantasia')?.touched">
+                    Nome Fantasia é obrigatório.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <label>Endereço <span class="required">*</span></label>
+        <div class="form-group">
+            <input type="text" id="cep" name="cep" placeholder="CEP (apenas números)" formControlName="cep"
+                (blur)="onCepBlur()"
+                [class.is-invalid]="empresaForm.get('cep')?.invalid && empresaForm.get('cep')?.touched">
+            <div class="error-message" *ngIf="empresaForm.get('cep')?.invalid && empresaForm.get('cep')?.touched">
+                CEP é obrigatório e deve ter 8 dígitos.
+            </div>
+            <div class="info-message" *ngIf="cepLoading">Buscando CEP...</div>
+            <div class="error-message" *ngIf="cepError">{{ cepError }}</div>
+        </div>
+
+        <div class="form-group">
+            <input type="text" id="logradouro" name="logradouro" placeholder="Logradouro"
+                formControlName="logradouro" readonly
+                [class.is-invalid]="empresaForm.get('logradouro')?.invalid && empresaForm.get('logradouro')?.touched">
+            <div class="error-message"
+                *ngIf="empresaForm.get('logradouro')?.invalid && empresaForm.get('logradouro')?.touched">
+                Logradouro é obrigatório.
+            </div>
+        </div>
+
+        <div class="form-row two-cols">
+            <div class="form-group">
+                <input type="text" id="numero" name="numero" placeholder="Número" formControlName="numero"
+                    [class.is-invalid]="empresaForm.get('numero')?.invalid && empresaForm.get('numero')?.touched">
+                <div class="error-message"
+                    *ngIf="empresaForm.get('numero')?.invalid && empresaForm.get('numero')?.touched">
+                    Número é obrigatório.
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="text" id="complemento" name="complemento" placeholder="Complemento"
+                    formControlName="complemento">
+            </div>
+        </div>
+
+        <div class="form-row three-cols">
+            <div class="form-group">
+                <input type="text" id="bairro" name="bairro" placeholder="Bairro" formControlName="bairro" readonly
+                    [class.is-invalid]="empresaForm.get('bairro')?.invalid && empresaForm.get('bairro')?.touched">
+                <div class="error-message"
+                    *ngIf="empresaForm.get('bairro')?.invalid && empresaForm.get('bairro')?.touched">
+                    Bairro é obrigatório.
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="text" id="localidade" name="localidade" placeholder="Localidade"
+                    formControlName="localidade" readonly
+                    [class.is-invalid]="empresaForm.get('localidade')?.invalid && empresaForm.get('localidade')?.touched">
+                <div class="error-message"
+                    *ngIf="empresaForm.get('localidade')?.invalid && empresaForm.get('localidade')?.touched">
+                    Localidade é obrigatória.
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="text" id="uf" name="uf" placeholder="UF" formControlName="uf" readonly
+                    [class.is-invalid]="empresaForm.get('uf')?.invalid && empresaForm.get('uf')?.touched">
+                <div class="error-message" *ngIf="empresaForm.get('uf')?.invalid && empresaForm.get('uf')?.touched">
+                    UF é obrigatório.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn-submit" [disabled]="empresaForm.invalid || isSaving">
+            {{ isSaving ? 'Salvando...' : (isEditing ? 'Atualizar Empresa' : 'Cadastrar Empresa') }}
+        </button>
+        <button type="button" class="btn-cancel" (click)="onCancel()">Cancelar</button>
+    </div>
+</form>

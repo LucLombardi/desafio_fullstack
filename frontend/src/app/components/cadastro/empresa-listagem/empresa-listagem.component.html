@@ -1,0 +1,82 @@
+
+<div class="empresa-list-container">
+    <h2>Listagem de Empresas</h2>
+
+    <div class="search-section">
+        <div class="input-group">
+            <label for="searchCnpj">CNPJ:</label>
+            <input type="text" id="searchCnpj" placeholder="Digite o CNPJ" [(ngModel)]="searchCnpj" (keyup.enter)="onSearch()">
+        </div>
+        <div class="input-group">
+            <label for="searchNomeFantasia">Nome Fantasia:</label>
+            <input type="text" id="searchNomeFantasia" placeholder="Digite o Nome Fantasia" [(ngModel)]="searchNomeFantasia" (keyup.enter)="onSearch()">
+        </div>
+        <button class="search-button" (click)="onSearch()" [disabled]="loading">
+            <span *ngIf="loading" class="spinner"></span>
+            {{ loading ? 'Buscando...' : 'Buscar' }}
+        </button>
+        <button class="add-button" (click)="onAddCompany()">
+            Nova Empresa
+        </button>
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+    <div class="table-container">
+        <div *ngIf="loading && !empresas.length" class="loading-placeholder">
+            <div class="spinner"></div>
+            <p>Carregando empresas...</p>
+        </div>
+        <div *ngIf="!loading && empresas.length === 0" class="no-data-message">
+            Nenhuma empresa encontrada com os critérios de busca.
+        </div>
+
+        <table *ngIf="!loading || empresas.length > 0" class="company-table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>CNPJ</th>
+                    <th>Nome Fantasia</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let empresa of empresas; let i = index" [class.even-row]="i % 2 === 0" [class.odd-row]="i % 2 !== 0">
+                    <td>{{ empresa.id }}</td>
+                    <td>{{ empresa.cnpj }}</td>
+                    <td>{{ empresa.nomeFantasia }}</td>
+                    <td class="action-buttons">
+                        <button class="edit-button" (click)="onEdit(empresa.id)">Editar</button>
+                        <button class="delete-button" (click)="onDelete(empresa)">Excluir</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginação -->
+    <div *ngIf="totalPages > 1" class="pagination-controls">
+        <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 0 || loading">Anterior</button>
+        <span>Página {{ currentPage + 1 }} de {{ totalPages }}</span>
+        <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages - 1 || loading">Próximo</button>
+    </div>
+
+    <!-- Modal de Confirmação de Exclusão -->
+    <div *ngIf="showDeleteModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Confirmar Exclusão</h3>
+            <p>
+                Tem certeza que deseja excluir a empresa
+                <strong>{{ empresaToDelete?.nomeFantasia }}</strong> (CNPJ: {{ empresaToDelete?.cnpj }})?
+            </p>
+            <div class="modal-actions">
+                <button class="confirm-button" (click)="confirmDelete()" [disabled]="deleting">
+                    <span *ngIf="deleting" class="spinner"></span>
+                    {{ deleting ? 'Excluindo...' : 'Confirmar' }}
+                </button>
+                <button class="cancel-button" (click)="cancelDelete()" [disabled]="deleting">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
