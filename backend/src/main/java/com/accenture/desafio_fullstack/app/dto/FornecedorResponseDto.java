@@ -2,6 +2,7 @@ package com.accenture.desafio_fullstack.app.dto;
 
 import java.time.LocalDate;
 
+import com.accenture.desafio_fullstack.app.enums.TipoPessoa;
 import com.accenture.desafio_fullstack.app.model.Endereco;
 
 import lombok.Getter;
@@ -17,6 +18,7 @@ public class FornecedorResponseDto {
 	private String nome;
 	private String email;
 	private String cnpjOuCpf;
+	private TipoPessoa tipoPessoa;
 	private String rg;
 	private LocalDate dataNascimento;
 	private Endereco endereco;

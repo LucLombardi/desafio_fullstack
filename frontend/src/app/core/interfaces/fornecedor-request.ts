@@ -1,11 +1,11 @@
 import { TipoPessoa } from "../../shared/type/pessoa";
 
 export interface FornecedorRequest {
-    tipoPessoa: TipoPessoa;
+    tipoPessoa: string;
     nome: string;
     email: string;
     cnpjOuCpf: string;
-    rg?: string | null; // Opcional, apenas para pessoa física
+    rg?: string | null;
     dataNascimento?: string | null;
     cep: string;
     logradouro: string;

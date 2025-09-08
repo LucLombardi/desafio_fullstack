@@ -110,10 +110,12 @@ export class FornecedorCadastroComponent implements OnInit {
    * @param id O ID do fornecedor a ser carregado.
    */
   loadFornecedorForEditing(id: number): void {
-    this.loading = true; // Assumindo uma propriedade loading para indicar carregamento do form
+    this.loading = true; //
     this.fornecedorService.getFornecedorById(id).subscribe({
       next: (fornecedor: FornecedorResponse) => {
-        // Formata a data de nascimento se existir para 'YYYY-MM-DD'
+
+
+  
         const dataNascimentoFormatada = fornecedor.dataNascimento ?
           new Date(fornecedor.dataNascimento).toISOString().split('T')[0] : null;
 

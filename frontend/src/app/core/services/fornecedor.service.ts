@@ -4,7 +4,7 @@ import { FornecedorRequest } from "../interfaces/fornecedor-request";
 import { FornecedorResponse } from "../interfaces/fornecedor-response";
 import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
-import { Page } from "../../shared/type/pages";
+import { Page,PageMetadata} from "../../shared/type/pages";
 
 @Injectable({
   providedIn: 'root'
@@ -37,9 +37,10 @@ export class FornecedorService {
 
     if (nome) {
       params = params.set('nome', nome);
+      return this.http.get<Page<FornecedorResponse>>(`${this.apiUrl}/nome/${nome || ''}`, { params });
     }
 
-    return this.http.get<Page<FornecedorResponse>>(`${this.apiUrl}/nome/${nome || ''}`, { params });
+    return this.http.get<Page<FornecedorResponse>>(`${this.apiUrl}`,{ params });
    
    
   }

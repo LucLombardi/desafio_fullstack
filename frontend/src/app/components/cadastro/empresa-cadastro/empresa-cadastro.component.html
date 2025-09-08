@@ -1,4 +1,4 @@
-<form class="cadastro-form" (formGroup)="empresaForm" (ngSubmit)="onSubmit()">
+<form class="cadastro-form" [formGroup]="empresaForm" (ngSubmit)="onSubmit()">
     <h2>{{ isEditing ? 'Editar Empresa' : 'Cadastrar Nova Empresa' }}</h2>
 
     <div class="form-section">

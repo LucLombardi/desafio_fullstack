@@ -1,10 +1,22 @@
+import { FornecedorResponse } from "../../core/interfaces/fornecedor-response";
+
+
+
+
+export interface PageMetadata {
+  size: number; 
+  totalElements: number; 
+  totalPages: number; 
+  number: number; 
+ 
+}
+
+export interface GenericEmbedded<T> {
+  [key: string]: T[]; 
+}
+
 export interface Page<T> {
-  content: T[];
-  totalElements: number;
-  totalPages: number;
-  size: number;
-  number: number; // Página atual (zero-based)
-  first: boolean;
-  last: boolean;
-  empty: boolean;
+  _embedded?: GenericEmbedded<T>; 
+  _links?: any; 
+  page: PageMetadata; 
 }

@@ -12,12 +12,14 @@
       <div class="form-group flex-item">
         <label for="tipoPessoa">Tipo de Pessoa:</label>
         <select id="tipoPessoa" formControlName="tipoPessoa"
-                [class.is-invalid]="fornecedorForm.get('tipoPessoa')?.invalid && fornecedorForm.get('tipoPessoa')?.touched">
+          [class.is-invalid]="fornecedorForm.get('tipoPessoa')?.invalid && fornecedorForm.get('tipoPessoa')?.touched">
+          <option value="">-- Selecione --</option>
           <option *ngFor="let tipo of tiposPessoa" [value]="tipo">
-            {{ tipo === 'FISICA' ? 'Pessoa Física' : 'Pessoa Jurídica' }}
+            {{ tipo }}
           </option>
         </select>
-        <div *ngIf="fornecedorForm.get('tipoPessoa')?.invalid && fornecedorForm.get('tipoPessoa')?.touched" class="invalid-feedback">
+        <div *ngIf="fornecedorForm.get('tipoPessoa')?.invalid && fornecedorForm.get('tipoPessoa')?.touched"
+          class="invalid-feedback">
           Tipo de Pessoa é obrigatório.
         </div>
       </div>
@@ -28,16 +30,18 @@
       <div class="form-group">
         <label for="nome">Nome:</label>
         <input type="text" id="nome" formControlName="nome" placeholder="Nome completo ou Razão Social"
-               [class.is-invalid]="fornecedorForm.get('nome')?.invalid && fornecedorForm.get('nome')?.touched">
-        <div *ngIf="fornecedorForm.get('nome')?.invalid && fornecedorForm.get('nome')?.touched" class="invalid-feedback">
+          [class.is-invalid]="fornecedorForm.get('nome')?.invalid && fornecedorForm.get('nome')?.touched">
+        <div *ngIf="fornecedorForm.get('nome')?.invalid && fornecedorForm.get('nome')?.touched"
+          class="invalid-feedback">
           Nome é obrigatório.
         </div>
       </div>
       <div class="form-group">
         <label for="email">E-mail:</label>
         <input type="email" id="email" formControlName="email" placeholder="email@exemplo.com"
-               [class.is-invalid]="fornecedorForm.get('email')?.invalid && fornecedorForm.get('email')?.touched">
-        <div *ngIf="fornecedorForm.get('email')?.invalid && fornecedorForm.get('email')?.touched" class="invalid-feedback">
+          [class.is-invalid]="fornecedorForm.get('email')?.invalid && fornecedorForm.get('email')?.touched">
+        <div *ngIf="fornecedorForm.get('email')?.invalid && fornecedorForm.get('email')?.touched"
+          class="invalid-feedback">
           E-mail é obrigatório e deve ser válido.
         </div>
       </div>
@@ -48,9 +52,10 @@
       <div class="form-group">
         <label for="cnpjOuCpf">{{ fornecedorForm.get('tipoPessoa')?.value === 'FISICA' ? 'CPF' : 'CNPJ' }}:</label>
         <input type="text" id="cnpjOuCpf" formControlName="cnpjOuCpf"
-               placeholder="{{ fornecedorForm.get('tipoPessoa')?.value === 'FISICA' ? '000.000.000-00' : '00.000.000/0000-00' }}"
-               [class.is-invalid]="fornecedorForm.get('cnpjOuCpf')?.invalid && fornecedorForm.get('cnpjOuCpf')?.touched">
-        <div *ngIf="fornecedorForm.get('cnpjOuCpf')?.invalid && fornecedorForm.get('cnpjOuCpf')?.touched" class="invalid-feedback">
+          placeholder="{{ fornecedorForm.get('tipoPessoa')?.value === 'FISICA' ? '000.000.000-00' : '00.000.000/0000-00' }}"
+          [class.is-invalid]="fornecedorForm.get('cnpjOuCpf')?.invalid && fornecedorForm.get('cnpjOuCpf')?.touched">
+        <div *ngIf="fornecedorForm.get('cnpjOuCpf')?.invalid && fornecedorForm.get('cnpjOuCpf')?.touched"
+          class="invalid-feedback">
           {{ fornecedorForm.get('tipoPessoa')?.value === 'FISICA' ? 'CPF' : 'CNPJ' }} é obrigatório.
         </div>
       </div>
@@ -58,7 +63,7 @@
       <div class="form-group" *ngIf="fornecedorForm.get('tipoPessoa')?.value === 'FISICA'">
         <label for="rg">RG:</label>
         <input type="text" id="rg" formControlName="rg" placeholder="RG (apenas para PF)"
-               [class.is-invalid]="fornecedorForm.get('rg')?.invalid && fornecedorForm.get('rg')?.touched">
+          [class.is-invalid]="fornecedorForm.get('rg')?.invalid && fornecedorForm.get('rg')?.touched">
         <div *ngIf="fornecedorForm.get('rg')?.invalid && fornecedorForm.get('rg')?.touched" class="invalid-feedback">
           RG é obrigatório para Pessoa Física.
         </div>
@@ -67,8 +72,9 @@
       <div class="form-group" *ngIf="fornecedorForm.get('tipoPessoa')?.value === 'FISICA'">
         <label for="dataNascimento">Data de Nascimento:</label>
         <input type="date" id="dataNascimento" formControlName="dataNascimento"
-               [class.is-invalid]="fornecedorForm.get('dataNascimento')?.invalid && fornecedorForm.get('dataNascimento')?.touched">
-        <div *ngIf="fornecedorForm.get('dataNascimento')?.invalid && fornecedorForm.get('dataNascimento')?.touched" class="invalid-feedback">
+          [class.is-invalid]="fornecedorForm.get('dataNascimento')?.invalid && fornecedorForm.get('dataNascimento')?.touched">
+        <div *ngIf="fornecedorForm.get('dataNascimento')?.invalid && fornecedorForm.get('dataNascimento')?.touched"
+          class="invalid-feedback">
           Data de Nascimento é obrigatória para Pessoa Física.
         </div>
       </div>
@@ -79,7 +85,7 @@
       <div class="form-group flex-item">
         <label for="cep">CEP:</label>
         <input type="text" id="cep" formControlName="cep" placeholder="00000-000" (blur)="onCepBlur()"
-               [class.is-invalid]="fornecedorForm.get('cep')?.invalid && fornecedorForm.get('cep')?.touched">
+          [class.is-invalid]="fornecedorForm.get('cep')?.invalid && fornecedorForm.get('cep')?.touched">
         <div *ngIf="cepLoading" class="loading-message-inline">
           <div class="spinner-small"></div>
           Buscando CEP...
@@ -96,16 +102,18 @@
       <div class="form-group">
         <label for="logradouro">Logradouro:</label>
         <input type="text" id="logradouro" formControlName="logradouro" placeholder="Rua, Avenida, etc."
-               [class.is-invalid]="fornecedorForm.get('logradouro')?.invalid && fornecedorForm.get('logradouro')?.touched">
-        <div *ngIf="fornecedorForm.get('logradouro')?.invalid && fornecedorForm.get('logradouro')?.touched" class="invalid-feedback">
+          [class.is-invalid]="fornecedorForm.get('logradouro')?.invalid && fornecedorForm.get('logradouro')?.touched">
+        <div *ngIf="fornecedorForm.get('logradouro')?.invalid && fornecedorForm.get('logradouro')?.touched"
+          class="invalid-feedback">
           Logradouro é obrigatório.
         </div>
       </div>
       <div class="form-group">
         <label for="numero">Número:</label>
         <input type="text" id="numero" formControlName="numero" placeholder="Número"
-               [class.is-invalid]="fornecedorForm.get('numero')?.invalid && fornecedorForm.get('numero')?.touched">
-        <div *ngIf="fornecedorForm.get('numero')?.invalid && fornecedorForm.get('numero')?.touched" class="invalid-feedback">
+          [class.is-invalid]="fornecedorForm.get('numero')?.invalid && fornecedorForm.get('numero')?.touched">
+        <div *ngIf="fornecedorForm.get('numero')?.invalid && fornecedorForm.get('numero')?.touched"
+          class="invalid-feedback">
           Número é obrigatório.
         </div>
       </div>
@@ -120,8 +128,9 @@
       <div class="form-group">
         <label for="bairro">Bairro:</label>
         <input type="text" id="bairro" formControlName="bairro" placeholder="Bairro"
-               [class.is-invalid]="fornecedorForm.get('bairro')?.invalid && fornecedorForm.get('bairro')?.touched">
-        <div *ngIf="fornecedorForm.get('bairro')?.invalid && fornecedorForm.get('bairro')?.touched" class="invalid-feedback">
+          [class.is-invalid]="fornecedorForm.get('bairro')?.invalid && fornecedorForm.get('bairro')?.touched">
+        <div *ngIf="fornecedorForm.get('bairro')?.invalid && fornecedorForm.get('bairro')?.touched"
+          class="invalid-feedback">
           Bairro é obrigatório.
         </div>
       </div>
@@ -132,15 +141,16 @@
       <div class="form-group">
         <label for="localidade">Cidade:</label>
         <input type="text" id="localidade" formControlName="localidade" placeholder="Cidade"
-               [class.is-invalid]="fornecedorForm.get('localidade')?.invalid && fornecedorForm.get('localidade')?.touched">
-        <div *ngIf="fornecedorForm.get('localidade')?.invalid && fornecedorForm.get('localidade')?.touched" class="invalid-feedback">
+          [class.is-invalid]="fornecedorForm.get('localidade')?.invalid && fornecedorForm.get('localidade')?.touched">
+        <div *ngIf="fornecedorForm.get('localidade')?.invalid && fornecedorForm.get('localidade')?.touched"
+          class="invalid-feedback">
           Cidade é obrigatória.
         </div>
       </div>
       <div class="form-group">
         <label for="uf">UF:</label>
         <input type="text" id="uf" formControlName="uf" placeholder="UF" maxlength="2"
-               [class.is-invalid]="fornecedorForm.get('uf')?.invalid && fornecedorForm.get('uf')?.touched">
+          [class.is-invalid]="fornecedorForm.get('uf')?.invalid && fornecedorForm.get('uf')?.touched">
         <div *ngIf="fornecedorForm.get('uf')?.invalid && fornecedorForm.get('uf')?.touched" class="invalid-feedback">
           UF é obrigatória (2 letras).
         </div>
@@ -148,8 +158,9 @@
       <div class="form-group">
         <label for="estado">Estado:</label>
         <input type="text" id="estado" formControlName="estado" placeholder="Nome do Estado"
-               [class.is-invalid]="fornecedorForm.get('estado')?.invalid && fornecedorForm.get('estado')?.touched">
-        <div *ngIf="fornecedorForm.get('estado')?.invalid && fornecedorForm.get('estado')?.touched" class="invalid-feedback">
+          [class.is-invalid]="fornecedorForm.get('estado')?.invalid && fornecedorForm.get('estado')?.touched">
+        <div *ngIf="fornecedorForm.get('estado')?.invalid && fornecedorForm.get('estado')?.touched"
+          class="invalid-feedback">
           Estado é obrigatório.
         </div>
       </div>

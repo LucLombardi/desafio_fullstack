@@ -1,9 +1,13 @@
+import { GenericEmbedded } from './../../../shared/type/pages';
+
 import { FornecedorService } from './../../../core/services/fornecedor.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Page } from '../../../shared/type/pages'; 
+import { Page} from '../../../shared/type/pages'; 
 import { FornecedorResponse } from '../../../core/interfaces/fornecedor-response';
-import { NgIf, NgForOf } from "../../../../../node_modules/@angular/common/common_module.d-NEF7UaHr"; 
+import { take } from 'rxjs';
+
+
 @Component({
   selector: 'app-fornecedor-listagem',
   templateUrl: './fornecedor-listagem.component.html',
@@ -46,11 +50,12 @@ export class FornecedorListagemComponent implements OnInit {
     this.loading = true;
     this.errorMessage = null;
     this.fornecedorService.getFornecedores(this.currentPage, this.pageSize, this.searchNome)
-      .subscribe({
+    .pipe(take(1))  
+    .subscribe({
         next: (response: Page<FornecedorResponse>) => {
-          this.fornecedores = response.content;
-          this.totalPages = response.totalPages;
-          this.totalElements = response.totalElements;
+         this.fornecedores = response._embedded?.['fornecedorResponseDtoList'] ?? [];
+          this.totalPages = response.page.totalPages;
+          this.totalElements = response.page.totalElements;
           this.loading = false;
         },
         error: (error) => {

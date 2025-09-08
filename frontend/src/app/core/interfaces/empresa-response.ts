@@ -5,4 +5,5 @@ export interface EmpresaResponse {
     cnpj: string;
     nomeFantasia: string;
     endereco: Endereco;
+    _links?: any; 
 }

@@ -10,5 +10,6 @@ id: number;
   rg?: string | null;
   dataNascimento?: string | null; 
   endereco: Endereco;
+  _links?: any; 
 
 }

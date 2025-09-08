@@ -1,30 +1,32 @@
 import { EmpresaResponse } from './../../../core/interfaces/empresa-response';
 import { EmpresaRequest } from './../../../core/interfaces/empresa-request';
 import { CepService } from './../../../core/services/cep.service';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { EmpresaService } from '../../../core/services/empresa.service'; 
+import { EmpresaService } from '../../../core/services/empresa.service';
 import { take } from 'rxjs/operators'; // Para gerenciar subscriptions
 import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-empresa-cadastro',
   standalone: false,
   templateUrl: './empresa-cadastro.component.html',
   styleUrl: './empresa-cadastro.component.css',
- 
-})
-export class EmpresaCadastroComponent {
 
-  @Input() empresaId: number | null = null; // Para modo de edição
+})
+export class EmpresaCadastroComponent implements OnInit {
   @Output() formSubmitted = new EventEmitter<EmpresaResponse>();
   @Output() formCanceled = new EventEmitter<void>();
 
-  empresaForm!: FormGroup; // 
+  empresaForm!: FormGroup;
+   private empresaId: number | null = null;
   isEditing: boolean = false;
   isSaving: boolean = false;
   cepLoading: boolean = false;
   cepError: string | null = null;
+
+  private route = inject(ActivatedRoute);
 
   constructor(
     private fb: FormBuilder,
@@ -35,10 +37,15 @@ export class EmpresaCadastroComponent {
   ngOnInit(): void {
     this.initializeForm();
 
-    if (this.empresaId) {
-      this.isEditing = true;
-      this.loadEmpresaForEditing(this.empresaId);
-    }
+    this.route.paramMap.subscribe((param) => {
+     let id = param.get('id');
+
+      if (id) {
+        this.empresaId = +id;
+        this.isEditing = true;
+        this.loadEmpresaForEditing(this.empresaId);
+      }
+    })
   }
 
   private initializeForm(): void {
@@ -176,7 +183,7 @@ export class EmpresaCadastroComponent {
 
       operation$.pipe(take(1)).subscribe({
         next: (response) => {
-          console.log('Operação de empresa bem-sucedida:', response);
+
           this.isSaving = false;
           this.formSubmitted.emit(response);
           // Opcional: Resetar formulário ou redirecionar
@@ -219,6 +226,6 @@ export class EmpresaCadastroComponent {
     }
   }
 
-  
+
 
 }

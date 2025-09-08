@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'; // Importa o Router para navegação
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router'; 
 import { EmpresaService } from '../../../core/services/empresa.service'; 
 import { EmpresaResponse } from '../../../core/interfaces/empresa-response';
-import { take } from 'rxjs/operators'; // Para gerenciar subscriptions
+import { take } from 'rxjs/operators';
+import { Page} from '../../../shared/type/pages'; 
 
 @Component({
   selector: 'app-empresa-listagem',
@@ -10,7 +11,7 @@ import { take } from 'rxjs/operators'; // Para gerenciar subscriptions
   templateUrl: './empresa-listagem.component.html',
   styleUrl: './empresa-listagem.component.css'
 })
-export class EmpresaListagemComponent {
+export class EmpresaListagemComponent implements OnInit{
   empresas: EmpresaResponse[] = [];
   searchCnpj: string = '';
   searchNomeFantasia: string = '';
@@ -45,10 +46,10 @@ export class EmpresaListagemComponent {
   
 
     this.empresaService.getEmpresas(this.currentPage, this.pageSize)
-      .pipe(take(1)) // Garante que a inscrição seja cancelada após a primeira emissão
+      .pipe(take(1)) 
       .subscribe({
-        next: (response) => {
-          let filteredEmpresas = response.content;
+        next: (response: Page<EmpresaResponse>) => {
+          let filteredEmpresas = response._embedded?.['empresaResponseDtoList']??[];
 
           if (this.searchCnpj) {
             filteredEmpresas = filteredEmpresas.filter((e: EmpresaResponse) => e.cnpj.includes(this.searchCnpj));
@@ -60,8 +61,8 @@ export class EmpresaListagemComponent {
           }
 
           this.empresas = filteredEmpresas; // Atribui as empresas filtradas
-          this.totalPages = response.totalPages;
-          this.totalElements = response.totalElements;
+          this.totalPages = response.page.totalPages;
+          this.totalElements = response.page.totalElements;
           this.loading = false;
         },
         error: (error) => {

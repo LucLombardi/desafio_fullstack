@@ -7,13 +7,15 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 public class EmpresaRequestDTO {
 
-	@CNPJ(message = "CNPJ Invalido")
+	//@CNPJ(message = "CNPJ Invalido")
 	@NotNull
 	private String cnpj;
 

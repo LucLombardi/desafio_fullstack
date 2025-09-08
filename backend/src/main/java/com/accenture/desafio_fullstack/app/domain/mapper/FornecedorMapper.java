@@ -55,6 +55,7 @@ public class FornecedorMapper {
 	        FornecedorResponseDto dto = new FornecedorResponseDto();
 	        dto.setId(fornecedor.getId());
 	        dto.setNome(fornecedor.getNome());
+	        dto.setTipoPessoa(fornecedor.getTipoPessoa());
 	        dto.setEmail(fornecedor.getEmail());
 	        dto.setCnpjOuCpf(fornecedor.getCnpjOuCpf());
 	        dto.setRg(fornecedor.getRg());
