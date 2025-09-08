@@ -11,7 +11,8 @@ import { Observable } from 'rxjs';
   selector: 'app-empresa-cadastro',
   standalone: false,
   templateUrl: './empresa-cadastro.component.html',
-  styleUrl: './empresa-cadastro.component.css'
+  styleUrl: './empresa-cadastro.component.css',
+ 
 })
 export class EmpresaCadastroComponent {
 

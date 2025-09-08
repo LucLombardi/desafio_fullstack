@@ -7,6 +7,10 @@ import { FooterComponent } from './footer/footer.component';
 import { EmpresaCadastroComponent } from './cadastro/empresa-cadastro/empresa-cadastro.component';
 import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmpresaListagemComponent } from './cadastro/empresa-listagem/empresa-listagem.component';
+import { FornecedorListagemComponent } from './cadastro/fornecedor-listagem/fornecedor-listagem.component';
+import { FornecedorCadastroComponent } from './cadastro/fornecedor-cadastro/fornecedor-cadastro.component';
+
+
 
 
 
@@ -16,20 +20,25 @@ import { EmpresaListagemComponent } from './cadastro/empresa-listagem/empresa-li
     NavBarComponent,
     FooterComponent,
     EmpresaCadastroComponent,
-    EmpresaListagemComponent
+    EmpresaListagemComponent,
+    FornecedorListagemComponent,
+    FornecedorCadastroComponent
+    
   ],
   imports: [
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
     
   ],
   exports:[
     HomeComponent,
     NavBarComponent,
     FooterComponent,
-    EmpresaCadastroComponent
+    EmpresaCadastroComponent,
+    FornecedorListagemComponent,
+    FornecedorCadastroComponent
   ]
 })
 export class ComponentsModule { }

@@ -1,0 +1,98 @@
+<!-- src/app/features/fornecedor/fornecedor-list.component.html -->
+
+<div class="list-container">
+  <h2>Lista de Fornecedores</h2>
+
+  <!-- Seção de Busca e Botão "Novo Fornecedor" -->
+  <div class="search-add-section">
+    <div class="search-inputs">
+      <div class="form-group">
+        <label for="searchCnpjCpf">Buscar por CNPJ/CPF:</label>
+        <input
+          type="text"
+          id="searchCnpjCpf"
+          [(ngModel)]="searchCnpjOuCpf"
+          (keyup.enter)="onSearch()"
+          placeholder="Digite o CNPJ ou CPF"
+        />
+      </div>
+      <div class="form-group">
+        <label for="searchNome">Buscar por Nome:</label>
+        <input
+          type="text"
+          id="searchNome"
+          [(ngModel)]="searchNome"
+          (keyup.enter)="onSearch()"
+          placeholder="Digite o nome"
+        />
+      </div>
+    </div>
+    <div class="search-buttons">
+      <button class="btn btn-search" (click)="onSearch()">Buscar</button>
+      <button class="btn btn-add" (click)="onAddFornecedor()">Novo Fornecedor</button>
+    </div>
+  </div>
+
+  <!-- Mensagens de Feedback -->
+  <div *ngIf="loading" class="loading-message">
+    <div class="spinner"></div>
+    Carregando fornecedores...
+  </div>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+  <!-- Tabela de Fornecedores -->
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>CNPJ/CPF</th>
+          <th>Tipo Pessoa</th>
+          <th>Nome</th>
+          <th>E-mail</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="!loading && fornecedores.length === 0 && !errorMessage">
+          <td colspan="6" class="no-data-message">Nenhum fornecedor encontrado.</td>
+        </tr>
+        <tr *ngFor="let fornecedor of fornecedores; let i = index" [class.even-row]="i % 2 === 0" [class.odd-row]="i % 2 !== 0">
+          <td>{{ fornecedor.id }}</td>
+          <td>{{ fornecedor.cnpjOuCpf }}</td>
+          <td>{{ fornecedor.tipoPessoa === 'FISICA' ? 'Pessoa Física' : 'Pessoa Jurídica' }}</td>
+          <td>{{ fornecedor.nome }}</td>
+          <td>{{ fornecedor.email }}</td>
+          <td class="action-buttons">
+            <button class="btn btn-edit" (click)="onEdit(fornecedor.id)">Editar</button>
+            <button class="btn btn-delete" (click)="onDelete(fornecedor)">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Controles de Paginação -->
+  <div *ngIf="fornecedores.length > 0" class="pagination-controls">
+    <button class="btn btn-pagination" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 0">Anterior</button>
+    <span>Página {{ currentPage + 1 }} de {{ totalPages }}</span>
+    <button class="btn btn-pagination" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages - 1">Próximo</button>
+  </div>
+
+  <!-- Modal de Confirmação de Exclusão -->
+  <div *ngIf="showDeleteModal" class="modal-overlay">
+    <div class="modal-content">
+      <h3>Confirmação de Exclusão</h3>
+      <p>Tem certeza que deseja excluir o fornecedor **{{ fornecedorToDelete?.nome }}** (CNPJ/CPF: {{ fornecedorToDelete?.cnpjOuCpf }})?</p>
+      <div *ngIf="deleting" class="loading-message">
+        <div class="spinner"></div>
+        Excluindo...
+      </div>
+      <div *ngIf="errorMessage && !deleting" class="error-message">{{ errorMessage }}</div>
+      <div class="modal-buttons">
+        <button class="btn btn-cancel" (click)="cancelDelete()">Cancelar</button>
+        <button class="btn btn-confirm-delete" (click)="confirmDelete()" [disabled]="deleting">Confirmar Exclusão</button>
+      </div>
+    </div>
+  </div>
+</div>
