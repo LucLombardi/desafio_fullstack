@@ -83,6 +83,7 @@ public class FornecedorEmpresaService implements Serializable {
 		}
 
 		fornecedor.removeEmpresa(empresa);
+		empresa.getFornecedores().remove(fornecedor);
 		fornecedorRepository.save(fornecedor);
 	}
 

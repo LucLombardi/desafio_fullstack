@@ -85,6 +85,9 @@ export class EmpresaService {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
+
+
+      
     return this.http.get<{ content: FornecedorResponse[], totalElements: number }>(`${this.apiUrl}/${empresaId}/fornecedores`, { params });
   }
 }

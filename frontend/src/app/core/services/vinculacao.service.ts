@@ -32,6 +32,7 @@ export class VinculacaoService {
    * @returns Um Observable indicando a conclusão da operação (normalmente um `void` ou um objeto de sucesso).
    */
   desvincularFornecedorEmpresa(fornecedorId: number, empresaId: number): Observable<void> {
+    console.log(`Desvinculando fornecedor ${fornecedorId} da empresa ${empresaId}`);
     return this.http.delete<void>(`${this.apiUrl}/desvincular/${fornecedorId}/${empresaId}`);
   }
 }

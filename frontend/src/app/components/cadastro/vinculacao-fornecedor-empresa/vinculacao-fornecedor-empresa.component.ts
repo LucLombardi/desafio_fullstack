@@ -63,7 +63,7 @@ export class VinculacaoFornecedorEmpresaComponent implements OnInit, OnDestroy {
       .subscribe(empresaId => {
         if (empresaId) {
           this.loadFornecedoresVinculados(empresaId);
-          this.errorMessage = null; // Limpa mensagens de erro ao trocar de empresa
+          this.errorMessage = null; 
           this.successMessage = null;
         } else {
           this.fornecedoresVinculados = []; // Limpa a lista se nenhuma empresa estiver selecionada
@@ -78,7 +78,7 @@ export class VinculacaoFornecedorEmpresaComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => {
-          this.empresas = data.content;
+          this.empresas = data._embedded?.['empresaResponseDtoList'] ?? [];
           this.isLoadingEmpresas = false;
         },
         error: (error) => {
@@ -119,9 +119,10 @@ export class VinculacaoFornecedorEmpresaComponent implements OnInit, OnDestroy {
           this.isLoadingFornecedoresVinculados = false;
         },
         error: (error) => {
-          this.errorMessage = 'Erro ao carregar fornecedores vinculados.';
+         // this.errorMessage = error.error?.message || 'Erro ao carregar fornecedores vinculados.';
           console.error('Erro ao carregar fornecedores vinculados:', error);
           this.isLoadingFornecedoresVinculados = false;
+          this.fornecedoresVinculados = []; // Limpa a lista em caso de erro
         }
       });
   }
@@ -138,7 +139,7 @@ export class VinculacaoFornecedorEmpresaComponent implements OnInit, OnDestroy {
 
     const { empresaId, fornecedorId } = this.vinculacaoForm.value;
 
-    // Verificar se o fornecedor já está vinculado para evitar requisições desnecessárias
+    
     const fornecedorJaVinculado = this.fornecedoresVinculados.some(f => f.id === fornecedorId);
     if (fornecedorJaVinculado) {
       this.errorMessage = 'Este fornecedor já está vinculado a esta empresa.';
