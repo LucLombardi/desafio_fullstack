@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment'; // Assumindo que você tem um arquivo environment.ts
 import { EmpresaResponse } from '../interfaces/empresa-response';
 import { EmpresaRequest } from '../interfaces/empresa-request';
+import { FornecedorResponse } from '../interfaces/fornecedor-response';
 
 @Injectable({
   providedIn: 'root'
@@ -71,5 +72,19 @@ export class EmpresaService {
    */
   deleteEmpresa(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+   /**
+  * Busca os fornecedores vinculados a uma empresa específica.
+  * @param empresaId O ID da empresa.
+  * @param page O número da página(0-indexed).
+   * @param size O tamanho da página.
+   * @returns Um Observable contendo a resposta paginada de fornecedores.
+   */
+  getFornecedoresByEmpresaId(empresaId: number, page: number = 0, size: number = 10): Observable<{ content: FornecedorResponse[], totalElements: number }> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+    return this.http.get<{ content: FornecedorResponse[], totalElements: number }>(`${this.apiUrl}/${empresaId}/fornecedores`, { params });
   }
 }

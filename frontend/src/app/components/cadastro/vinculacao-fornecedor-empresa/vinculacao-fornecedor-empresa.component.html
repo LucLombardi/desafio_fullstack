@@ -1,0 +1,122 @@
+<!-- src/app/features/vinculacao/vinculacao-fornecedor-empresa.component.html -->
+
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h2>Vincular Fornecedores a Empresas</h2>
+    </div>
+    <div class="card-body">
+      <!-- Mensagens de Erro/Sucesso -->
+      <div *ngIf="errorMessage" class="message error-message">
+        {{ errorMessage }}
+      </div>
+      <div *ngIf="successMessage" class="message success-message">
+        {{ successMessage }}
+      </div>
+
+      <form [formGroup]="vinculacaoForm" class="form-container">
+        <!-- Seleção da Empresa -->
+        <div class="form-group">
+          <label for="empresaSelect">Empresa:</label>
+          <div class="select-wrapper">
+            <select
+              id="empresaSelect"
+              formControlName="empresaId"
+              class="form-control"
+              [class.is-invalid]="empresaFormControl?.invalid && empresaFormControl?.touched"
+            >
+              <option [ngValue]="null" disabled selected>Selecione uma empresa</option>
+              <option *ngIf="isLoadingEmpresas" [ngValue]="null" disabled>Carregando empresas...</option>
+              <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">
+                {{ empresa.nomeFantasia }} (CNPJ: {{ empresa.cnpj }})
+              </option>
+            </select>
+            <div class="spinner small" *ngIf="isLoadingEmpresas"></div>
+          </div>
+          <div *ngIf="empresaFormControl?.invalid && empresaFormControl?.touched" class="error-text">
+            Empresa é obrigatória.
+          </div>
+        </div>
+
+        <!-- Seleção de Fornecedor e Botão de Vinculação -->
+        <div class="form-row two-cols-action">
+          <div class="form-group flex-grow">
+            <label for="fornecedorSelect">Fornecedor:</label>
+            <div class="select-wrapper">
+              <select
+                id="fornecedorSelect"
+                formControlName="fornecedorId"
+                class="form-control"
+                [class.is-invalid]="fornecedorFormControl?.invalid && fornecedorFormControl?.touched"
+              >
+                <option [ngValue]="null" disabled selected>Selecione um fornecedor</option>
+                <option *ngIf="isLoadingFornecedoresDisponiveis" [ngValue]="null" disabled>Carregando fornecedores...</option>
+                <option *ngFor="let fornecedor of fornecedoresDisponiveis" [ngValue]="fornecedor.id">
+                  {{ fornecedor.nome }} ({{ fornecedor.cnpjOuCpf }})
+                </option>
+              </select>
+              <div class="spinner small" *ngIf="isLoadingFornecedoresDisponiveis"></div>
+            </div>
+            <div *ngIf="fornecedorFormControl?.invalid && fornecedorFormControl?.touched" class="error-text">
+              Fornecedor é obrigatório.
+            </div>
+          </div>
+          <div class="form-group flex-shrink">
+            <button
+              type="button"
+              class="btn btn-submit"
+              (click)="onVincularFornecedor()"
+              [disabled]="vinculacaoForm.invalid || isSavingVinculacao"
+            >
+              {{ isSavingVinculacao ? 'Vinculando...' : 'Vincular Fornecedor' }}
+              <div *ngIf="isSavingVinculacao" class="spinner button-spinner"></div>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <hr class="separator">
+
+      <!-- Tabela de Fornecedores Vinculados -->
+      <h3>Fornecedores Vinculados à Empresa Selecionada:</h3>
+
+      <div *ngIf="isLoadingFornecedoresVinculados" class="loading-state">
+        <div class="spinner"></div>
+        <p>Carregando fornecedores vinculados...</p>
+      </div>
+
+      <div *ngIf="!isLoadingFornecedoresVinculados && fornecedoresVinculados.length === 0 && vinculacaoForm.get('empresaId')?.value !== null" class="no-data-message">
+        <p>Nenhum fornecedor vinculado a esta empresa ainda.</p>
+      </div>
+
+      <div *ngIf="!isLoadingFornecedoresVinculados && fornecedoresVinculados.length > 0" class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th scope="col">CNPJ/CPF</th>
+              <th scope="col">Nome do Fornecedor</th>
+              <th scope="col">Ação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let fornecedor of fornecedoresVinculados; let i = index" [class.even-row]="i % 2 === 0" [class.odd-row]="i % 2 !== 0">
+              <td>{{ fornecedor.cnpjOuCpf }}</td>
+              <td>{{ fornecedor.nome }}</td>
+              <td class="action-column">
+                <button
+                  type="button"
+                  class="btn btn-action btn-delete"
+                  title="Desvincular Fornecedor"
+                  (click)="onDesvincularFornecedor(fornecedor.id, fornecedor.nome)"
+                  [disabled]="isSavingVinculacao"
+                >
+                  <img src="assets/icon-x.svg" alt="Desvincular" class="icon-x">
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

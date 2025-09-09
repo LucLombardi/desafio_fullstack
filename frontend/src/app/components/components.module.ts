@@ -9,6 +9,7 @@ import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmpresaListagemComponent } from './cadastro/empresa-listagem/empresa-listagem.component';
 import { FornecedorListagemComponent } from './cadastro/fornecedor-listagem/fornecedor-listagem.component';
 import { FornecedorCadastroComponent } from './cadastro/fornecedor-cadastro/fornecedor-cadastro.component';
+import { VinculacaoFornecedorEmpresaComponent } from './cadastro/vinculacao-fornecedor-empresa/vinculacao-fornecedor-empresa.component';
 
 
 
@@ -22,7 +23,8 @@ import { FornecedorCadastroComponent } from './cadastro/fornecedor-cadastro/forn
     EmpresaCadastroComponent,
     EmpresaListagemComponent,
     FornecedorListagemComponent,
-    FornecedorCadastroComponent
+    FornecedorCadastroComponent,
+    VinculacaoFornecedorEmpresaComponent
     
   ],
   imports: [
@@ -38,7 +40,8 @@ import { FornecedorCadastroComponent } from './cadastro/fornecedor-cadastro/forn
     FooterComponent,
     EmpresaCadastroComponent,
     FornecedorListagemComponent,
-    FornecedorCadastroComponent
+    FornecedorCadastroComponent,
+    VinculacaoFornecedorEmpresaComponent
   ]
 })
 export class ComponentsModule { }

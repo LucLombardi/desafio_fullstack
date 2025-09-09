@@ -1,0 +1,318 @@
+/* src/app/features/vinculacao/vinculacao-fornecedor-empresa.component.css */
+
+/* --- Container Geral e Cartão (Padrão do Projeto) --- */
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.card-header {
+  background-color: #6a1b9a; /* Cor roxa do cabeçalho */
+  color: #fff;
+  padding: 18px 25px;
+  font-size: 1.5em;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.card-body {
+  padding: 25px;
+}
+
+/* --- Mensagens (Erro/Sucesso) --- */
+.message {
+  padding: 12px 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-weight: 500;
+  border: 1px solid transparent;
+}
+
+.error-message {
+  background-color: #ffe0e0;
+  color: #d32f2f;
+  border-color: #d32f2f;
+}
+
+.success-message {
+  background-color: #e8f5e9;
+  color: #388e3c;
+  border-color: #388e3c;
+}
+
+/* --- Formulário Geral --- */
+.form-container {
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+  position: relative; /* Para posicionar o spinner */
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+  box-sizing: border-box; /* Garante que padding e border não aumentem a largura total */
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  appearance: none; /* Remove estilo padrão de select/input */
+  background-color: #fff; /* Garante fundo branco para selects */
+}
+
+.form-control:focus {
+  border-color: #6a1b9a;
+  box-shadow: 0 0 0 3px rgba(106, 27, 154, 0.2);
+  outline: none;
+}
+
+.form-control.is-invalid {
+  border-color: #d32f2f;
+}
+
+.error-text {
+  color: #d32f2f;
+  font-size: 0.85em;
+  margin-top: 5px;
+}
+
+/* --- Estilo para Select (Dropdowns) --- */
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select-wrapper::after {
+  content: '▼'; /* Ícone de seta */
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #555;
+  pointer-events: none; /* Não interfere no clique do select */
+}
+
+/* --- Layout de Colunas (para campos de fornecedor/botão) --- */
+.form-row {
+  display: flex;
+  gap: 20px; /* Espaçamento entre as colunas */
+  align-items: flex-end; /* Alinha os itens pela base */
+  margin-bottom: 18px;
+}
+
+.form-row.two-cols-action .flex-grow {
+  flex-grow: 1; /* Permite que o campo do fornecedor ocupe o espaço disponível */
+}
+
+.form-row.two-cols-action .flex-shrink {
+  flex-shrink: 0; /* Impede que o botão encolha */
+  padding-bottom: 1px; /* Ajuste fino para alinhar o botão com o select */
+}
+
+/* --- Botões --- */
+.btn {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  transition: background-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  display: flex; /* Para alinhar texto e spinner */
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Espaço entre texto e spinner */
+}
+
+.btn-submit {
+  background-color: #6a1b9a; /* Cor roxa principal */
+  color: #fff;
+  width: 100%; /* Ocupa a largura total na sua coluna */
+}
+
+.btn-submit:hover:not([disabled]) {
+  background-color: #8e24aa; /* Um roxo um pouco mais claro no hover */
+}
+
+.btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* --- Separador --- */
+.separator {
+  border: 0;
+  height: 1px;
+  background-color: #eee;
+  margin: 30px 0;
+}
+
+/* --- Tabela de Fornecedores Vinculados (Padrão do Projeto) --- */
+h3 {
+  font-size: 1.3em;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.no-data-message,
+.loading-state {
+  text-align: center;
+  color: #666;
+  padding: 20px;
+  font-style: italic;
+}
+
+.table-responsive {
+  overflow-x: auto; /* Permite rolagem em telas menores para tabelas */
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.data-table th,
+.data-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.data-table th {
+  background-color: #6a1b9a; /* Cor roxa para o cabeçalho da tabela */
+  color: #fff;
+  font-weight: 600;
+  white-space: nowrap; /* Impede que o texto do cabeçalho quebre */
+}
+
+.data-table tbody tr.even-row {
+  background-color: #f9f9f9;
+}
+
+.data-table tbody tr.odd-row {
+  background-color: #fff;
+}
+
+.data-table tbody tr:hover {
+  background-color: #e0e0e0;
+}
+
+.action-column {
+  width: 80px; /* Largura para a coluna de ação */
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* --- Botão de Desvincular (ícone 'X') --- */
+.btn-action {
+  background-color: #d32f2f; /* Vermelho para exclusão */
+  color: #fff;
+  padding: 8px 12px; /* Botão menor */
+}
+
+.btn-action:hover:not([disabled]) {
+  background-color: #e57373; /* Um vermelho mais claro no hover */
+}
+
+.icon-x {
+  width: 16px; /* Tamanho do ícone */
+  height: 16px;
+  display: block; /* Garante que o ícone ocupe o espaço corretamente */
+  filter: brightness(0) invert(1); /* Deixa o ícone branco se ele for preto */
+}
+
+/* --- Spinners de Carregamento (Padrão do Projeto) --- */
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-left-color: #fff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+.spinner.button-spinner {
+  width: 16px;
+  height: 16px;
+  border-width: 3px;
+  border-left-color: #fff;
+  border-top-color: #fff;
+  border-right-color: rgba(255, 255, 255, 0.3);
+  border-bottom-color: rgba(255, 255, 255, 0.3);
+}
+
+.spinner.small {
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-color: rgba(0, 0, 0, 0.2);
+  border-left-color: #6a1b9a;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* --- Responsividade --- */
+@media (max-width: 768px) {
+  .card-header {
+    font-size: 1.2em;
+    padding: 15px 20px;
+  }
+
+  .card-body {
+    padding: 15px;
+  }
+
+  .form-row {
+    flex-direction: column; /* Empilha colunas em telas menores */
+    gap: 15px;
+    align-items: stretch;
+  }
+
+  .form-row.two-cols-action .flex-shrink {
+    padding-bottom: 0;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 10px;
+    font-size: 0.9em;
+  }
+
+  .btn {
+    width: 100%; /* Botões ocupam largura total */
+  }
+}

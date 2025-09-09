@@ -5,10 +5,11 @@ import { EmpresaCadastroComponent } from './components/cadastro/empresa-cadastro
 import { HomeComponent } from './components/home/home.component';
 import { FornecedorListagemComponent } from './components/cadastro/fornecedor-listagem/fornecedor-listagem.component';
 import { FornecedorCadastroComponent } from './components/cadastro/fornecedor-cadastro/fornecedor-cadastro.component';
+import { VinculacaoFornecedorEmpresaComponent } from './components/cadastro/vinculacao-fornecedor-empresa/vinculacao-fornecedor-empresa.component';
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, pathMatch: 'full' }, 
+  { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'empresas', component: EmpresaListagemComponent }, // Rota para listar empresas
 
   { path: 'empresas/cadastro', component: EmpresaCadastroComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'fornecedores', component: FornecedorListagemComponent },
   { path: 'fornecedores/cadastro', component: FornecedorCadastroComponent },
   { path: 'fornecedores/cadastro/:id', component: FornecedorCadastroComponent },
+  { path: 'vinculacao', component: VinculacaoFornecedorEmpresaComponent },
 
 ];
 
