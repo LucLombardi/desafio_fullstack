@@ -116,7 +116,7 @@ export class FornecedorListagemComponent implements OnInit {
             this.showDeleteModal = false;
             this.fornecedorToDelete = null;
             this.deleting = false;
-            this.loadFornecedores(); // Recarrega a lista após a exclusão
+            this.loadFornecedores(); 
           },
           error: (error) => {
             console.error('Erro ao excluir fornecedor:', error);

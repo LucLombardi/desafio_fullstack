@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/fo
 import { EmpresaService } from '../../../core/services/empresa.service';
 import { take } from 'rxjs/operators'; // Para gerenciar subscriptions
 import { Observable } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 
 @Component({
   selector: 'app-empresa-cadastro',
@@ -31,7 +31,8 @@ export class EmpresaCadastroComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private empresaService: EmpresaService,
-    private cepService: CepService
+    private cepService: CepService,
+     private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -210,6 +211,8 @@ export class EmpresaCadastroComponent implements OnInit {
 
   onCancel(): void {
     this.formCanceled.emit();
+    this.router.navigate(['/empresas']);
+
   }
 
   // Função utilitária para marcar todos os campos como "touched"

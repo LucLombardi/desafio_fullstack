@@ -19,12 +19,8 @@
         <div class="form-group">
           <label for="empresaSelect">Empresa:</label>
           <div class="select-wrapper">
-            <select
-              id="empresaSelect"
-              formControlName="empresaId"
-              class="form-control"
-              [class.is-invalid]="empresaFormControl?.invalid && empresaFormControl?.touched"
-            >
+            <select id="empresaSelect" formControlName="empresaId" class="form-control"
+              [class.is-invalid]="empresaFormControl?.invalid && empresaFormControl?.touched">
               <option [ngValue]="null" disabled selected>Selecione uma empresa</option>
               <option *ngIf="isLoadingEmpresas" [ngValue]="null" disabled>Carregando empresas...</option>
               <option *ngFor="let empresa of empresas" [ngValue]="empresa.id">
@@ -43,14 +39,11 @@
           <div class="form-group flex-grow">
             <label for="fornecedorSelect">Fornecedor:</label>
             <div class="select-wrapper">
-              <select
-                id="fornecedorSelect"
-                formControlName="fornecedorId"
-                class="form-control"
-                [class.is-invalid]="fornecedorFormControl?.invalid && fornecedorFormControl?.touched"
-              >
+              <select id="fornecedorSelect" formControlName="fornecedorId" class="form-control"
+                [class.is-invalid]="fornecedorFormControl?.invalid && fornecedorFormControl?.touched">
                 <option [ngValue]="null" disabled selected>Selecione um fornecedor</option>
-                <option *ngIf="isLoadingFornecedoresDisponiveis" [ngValue]="null" disabled>Carregando fornecedores...</option>
+                <option *ngIf="isLoadingFornecedoresDisponiveis" [ngValue]="null" disabled>Carregando fornecedores...
+                </option>
                 <option *ngFor="let fornecedor of fornecedoresDisponiveis" [ngValue]="fornecedor.id">
                   {{ fornecedor.nome }} ({{ fornecedor.cnpjOuCpf }})
                 </option>
@@ -62,14 +55,10 @@
             </div>
           </div>
           <div class="form-group flex-shrink">
-            <button
-              type="button"
-              class="btn btn-submit"
-              (click)="onVincularFornecedor()"
-              [disabled]="vinculacaoForm.invalid || isSavingVinculacao"
-            >
-              {{ isSavingVinculacao ? 'Vinculando...' : 'Vincular Fornecedor' }}
-              <div *ngIf="isSavingVinculacao" class="spinner button-spinner"></div>
+            <button type="button" class="btn btn-submit" (click)="onVincularFornecedor()"
+              [disabled]="vinculacaoForm.invalid || deleting">
+              {{ deleting  ? 'Vinculando...' : 'Vincular Fornecedor' }}
+              <div *ngIf="deleting" class="spinner button-spinner"></div>
             </button>
           </div>
         </div>
@@ -85,7 +74,9 @@
         <p>Carregando fornecedores vinculados...</p>
       </div>
 
-      <div *ngIf="!isLoadingFornecedoresVinculados && fornecedoresVinculados.length === 0 && vinculacaoForm.get('empresaId')?.value !== null" class="no-data-message">
+      <div
+        *ngIf="!isLoadingFornecedoresVinculados && fornecedoresVinculados.length === 0 && vinculacaoForm.get('empresaId')?.value !== null"
+        class="no-data-message">
         <p>Nenhum fornecedor vinculado a esta empresa ainda.</p>
       </div>
 
@@ -99,23 +90,38 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let fornecedor of fornecedoresVinculados; let i = index" [class.even-row]="i % 2 === 0" [class.odd-row]="i % 2 !== 0">
+            <tr *ngFor="let fornecedor of fornecedoresVinculados; let i = index" [class.even-row]="i % 2 === 0"
+              [class.odd-row]="i % 2 !== 0">
               <td>{{ fornecedor.cnpjOuCpf }}</td>
               <td>{{ fornecedor.nome }}</td>
               <td class="action-column">
-                <button
-                  type="button"
-                  class="btn btn-action btn-delete"
-                  title="Desvincular Fornecedor"
-                  (click)="onDesvincularFornecedor(fornecedor.id, fornecedor.nome)"
-                  [disabled]="isSavingVinculacao"
-                >
+                <button type="button" class="btn btn-action btn-delete" title="Desvincular Fornecedor"
+                  (click)="onDelete(fornecedor)" [disabled]="deleting">
                   <img src="assets/icon-x.svg" alt="Desvincular" class="icon-x">
                 </button>
               </td>
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Confirmação de Exclusão -->
+  <div *ngIf="showDeleteModal" class="modal-overlay">
+    <div class="modal-content">
+      <h3>Confirmação de Exclusão</h3>
+      <p>Tem certeza que deseja excluir o fornecedor **{{ fornecedorToDelete?.nome }}** (CNPJ/CPF: {{
+        fornecedorToDelete?.cnpjOuCpf }})?</p>
+      <div *ngIf="deleting" class="loading-message">
+        <div class="spinner"></div>
+        Excluindo...
+      </div>
+      <div *ngIf="errorMessage && !deleting" class="error-message">{{ errorMessage }}</div>
+      <div class="modal-actions">
+        <button class="btn cancel-button" (click)="cancelDelete()">Cancelar</button>
+        <button class="btn confirm-button" (click)="confirmDesvinculacao()" [disabled]="deleting">Confirmar
+          Exclusão</button>
       </div>
     </div>
   </div>

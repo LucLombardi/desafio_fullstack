@@ -1,20 +1,21 @@
-
 /* Contêiner Principal do Formulário */
 .cadastro-form {
+    margin: 40px auto;
+    padding: 30px;
     background-color: #ffffff;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 30px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     width: 100%;
-    max-width: 700px; /* Um pouco mais largo para acomodar mais campos */
+    max-width: 700px;
     box-sizing: border-box;
 }
 
 /* Título do Formulário */
 .cadastro-form h2 {
     text-align: center;
-    color: #333;
+    color: #6a5acd;
     margin-bottom: 30px;
     font-size: 26px;
     font-weight: 600;
@@ -23,12 +24,15 @@
 /* Seções do Formulário */
 .form-section {
     margin-bottom: 25px;
-    padding-bottom: 15px; /* Espaço para a linha */
-    border-bottom: 1px solid #eee; /* Linha divisória */
+    padding-bottom: 15px;
+    /* Espaço para a linha */
+    border-bottom: 1px solid #eee;
+    /* Linha divisória */
 }
 
 .form-section:last-of-type {
-    border-bottom: none; /* Remove linha da última seção */
+    border-bottom: none;
+    /* Remove linha da última seção */
     margin-bottom: 0;
     padding-bottom: 0;
 }
@@ -49,9 +53,11 @@
 
 /* Agrupamento de Campo Individual */
 .form-group {
-    margin-bottom: 18px; /* Mais espaço entre campos empilhados */
+    margin-bottom: 18px;
+    /* Mais espaço entre campos empilhados */
     flex-grow: 1;
-    min-width: 0; /* Permite que o flex item encolha */
+    min-width: 0;
+    /* Permite que o flex item encolha */
 }
 
 /* Remova a margem do último item dentro de um form-row para alinhamento */
@@ -82,7 +88,8 @@
 .cadastro-form textarea:focus {
     border-color: #007bff;
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
-    background-color: #f9fbfd; /* Levemente mais claro ao focar */
+    background-color: #f9fbfd;
+    /* Levemente mais claro ao focar */
 }
 
 /* Estilo para campos desabilitados/readonly */
@@ -90,7 +97,8 @@
 .cadastro-form input[readonly],
 .cadastro-form select[disabled],
 .cadastro-form textarea[disabled] {
-    background-color: #e9ecef; /* Cor de fundo para campos não editáveis */
+    background-color: #e9ecef;
+    /* Cor de fundo para campos não editáveis */
     cursor: not-allowed;
     opacity: 0.8;
 }
@@ -105,15 +113,18 @@
 /* Estilo para o textarea redimensionável */
 .cadastro-form textarea {
     resize: vertical;
-    min-height: 90px; /* Altura um pouco maior */
+    min-height: 90px;
+    /* Altura um pouco maior */
 }
 
 /* Linhas com múltiplas colunas (Flexbox) */
 .form-row {
     display: flex;
     gap: 20px;
-    flex-wrap: wrap; /* Garante quebras de linha em telas pequenas */
-    margin-bottom: 0; /* Resetar margem do form-row */
+    flex-wrap: wrap;
+    /* Garante quebras de linha em telas pequenas */
+    margin-bottom: 0;
+    /* Resetar margem do form-row */
 }
 
 .form-row.two-cols .form-group {
@@ -128,7 +139,8 @@
 
 /* Mensagens de erro de validação */
 .error-message {
-    color: #dc3545; /* Vermelho padrão para erro */
+    color: #dc3545;
+    /* Vermelho padrão para erro */
     font-size: 0.85em;
     margin-top: 5px;
     padding-left: 5px;
@@ -144,7 +156,8 @@
 
 /* Mensagens de informação (e.g., buscando CEP) */
 .info-message {
-    color: #28a745; /* Verde para informação/sucesso */
+    color: #28a745;
+    /* Verde para informação/sucesso */
     font-size: 0.85em;
     margin-top: 5px;
     padding-left: 5px;
@@ -153,14 +166,17 @@
 /* Ações do Formulário (botões) */
 .form-actions {
     display: flex;
-    justify-content: flex-start; /* Alinhar à esquerda */
-    gap: 15px; /* Espaçamento entre os botões */
+    justify-content: flex-start;
+    /* Alinhar à esquerda */
+    gap: 15px;
+    /* Espaçamento entre os botões */
     margin-top: 30px;
     padding-top: 20px;
     border-top: 1px solid #eee;
 }
 
-.btn-submit, .btn-cancel {
+.btn-submit,
+.btn-cancel {
     padding: 12px 25px;
     border: none;
     border-radius: 6px;
@@ -171,7 +187,8 @@
 }
 
 .btn-submit {
-    background-color: #ff9800; /* Laranja da imagem */
+    background-color: #6a5acd;
+    /* Laranja da imagem */
     color: white;
 }
 
@@ -187,7 +204,8 @@
 }
 
 .btn-cancel {
-    background-color: #6c757d; /* Cinza para cancelar */
+    background-color: #333;
+    /* Cinza para cancelar */
     color: white;
 }
 
@@ -200,7 +218,8 @@
 @media (max-width: 768px) {
     .cadastro-form {
         padding: 20px;
-        box-shadow: none; /* Em telas pequenas, remover sombra para design mais limpo */
+        box-shadow: none;
+        /* Em telas pequenas, remover sombra para design mais limpo */
         border: none;
     }
 
@@ -211,17 +230,21 @@
 
     .form-row.two-cols .form-group,
     .form-row.three-cols .form-group {
-        flex-basis: 100%; /* Todos os campos em coluna única em telas pequenas */
+        flex-basis: 100%;
+        /* Todos os campos em coluna única em telas pequenas */
         max-width: 100%;
     }
 
     .form-group {
-        margin-bottom: 15px; /* Ajuste para espaçamento em mobile */
+        margin-bottom: 15px;
+        /* Ajuste para espaçamento em mobile */
     }
 
     .form-actions {
-        flex-direction: column; /* Botões empilhados em telas pequenas */
-        align-items: stretch; /* Estica os botões para largura total */
+        flex-direction: column;
+        /* Botões empilhados em telas pequenas */
+        align-items: stretch;
+        /* Estica os botões para largura total */
         gap: 10px;
     }
 }

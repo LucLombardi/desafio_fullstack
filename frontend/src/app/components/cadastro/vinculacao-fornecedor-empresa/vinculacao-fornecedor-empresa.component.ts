@@ -6,7 +6,7 @@ import { FornecedorService } from './../../../core/services/fornecedor.service';
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EmpresaService } from '../../../core/services/empresa.service'; 
+import { EmpresaService } from '../../../core/services/empresa.service';
 
 import { Subject, takeUntil, forkJoin } from 'rxjs'; // Usaremos Subject para desinscrever e forkJoin para requisições paralelas
 
@@ -30,6 +30,10 @@ export class VinculacaoFornecedorEmpresaComponent implements OnInit, OnDestroy {
   isSavingVinculacao = false;
   errorMessage: string | null = null;
   successMessage: string | null = null;
+  showDeleteModal: boolean = false;
+  fornecedorToDelete: FornecedorResponse | null = null;
+  deleting: boolean = false;
+
 
   private destroy$ = new Subject<void>(); // Para gerenciar a desinscrição de Observables
 
@@ -63,7 +67,7 @@ export class VinculacaoFornecedorEmpresaComponent implements OnInit, OnDestroy {
       .subscribe(empresaId => {
         if (empresaId) {
           this.loadFornecedoresVinculados(empresaId);
-          this.errorMessage = null; 
+          this.errorMessage = null;
           this.successMessage = null;
         } else {
           this.fornecedoresVinculados = []; // Limpa a lista se nenhuma empresa estiver selecionada
@@ -74,7 +78,7 @@ export class VinculacaoFornecedorEmpresaComponent implements OnInit, OnDestroy {
   loadEmpresas(): void {
     this.isLoadingEmpresas = true;
     this.errorMessage = null;
-    this.empresaService.getEmpresas(0, 9999) // Buscar todas as empresas para o dropdown
+    this.empresaService.getEmpresas(0, 9999) 
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => {
@@ -119,7 +123,7 @@ export class VinculacaoFornecedorEmpresaComponent implements OnInit, OnDestroy {
           this.isLoadingFornecedoresVinculados = false;
         },
         error: (error) => {
-         // this.errorMessage = error.error?.message || 'Erro ao carregar fornecedores vinculados.';
+          // this.errorMessage = error.error?.message || 'Erro ao carregar fornecedores vinculados.';
           console.error('Erro ao carregar fornecedores vinculados:', error);
           this.isLoadingFornecedoresVinculados = false;
           this.fornecedoresVinculados = []; // Limpa a lista em caso de erro
@@ -139,7 +143,7 @@ export class VinculacaoFornecedorEmpresaComponent implements OnInit, OnDestroy {
 
     const { empresaId, fornecedorId } = this.vinculacaoForm.value;
 
-    
+
     const fornecedorJaVinculado = this.fornecedoresVinculados.some(f => f.id === fornecedorId);
     if (fornecedorJaVinculado) {
       this.errorMessage = 'Este fornecedor já está vinculado a esta empresa.';
@@ -166,33 +170,34 @@ export class VinculacaoFornecedorEmpresaComponent implements OnInit, OnDestroy {
       });
   }
 
-  onDesvincularFornecedor(fornecedorId: number, fornecedorNome: string): void {
+  executeDesvinculacao (): void {
     this.errorMessage = null;
     this.successMessage = null;
-    const empresaId = this.vinculacaoForm.get('empresaId')?.value;
+    this.showDeleteModal = true;
+    
+    let empresaId = this.vinculacaoForm.get('empresaId')?.value;
 
     if (!empresaId) {
       this.errorMessage = 'Por favor, selecione uma empresa para desvincular o fornecedor.';
       return;
     }
 
-    if (confirm(`Tem certeza que deseja desvincular o fornecedor "${fornecedorNome}" desta empresa?`)) {
       this.isSavingVinculacao = true; // Usamos a mesma flag para indicar operação em andamento
-      this.vinculacaoService.desvincularFornecedorEmpresa(fornecedorId, empresaId)
+      this.vinculacaoService.desvincularFornecedorEmpresa(this.fornecedorToDelete!.id , empresaId)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
             this.successMessage = 'Fornecedor desvinculado com sucesso!';
             this.loadFornecedoresVinculados(empresaId); // Recarrega a lista
-            this.isSavingVinculacao = false;
+            this.deleting = false;
           },
           error: (error) => {
             this.errorMessage = error.error?.message || 'Erro ao desvincular fornecedor.';
             console.error('Erro ao desvincular fornecedor:', error);
-            this.isSavingVinculacao = false;
+            this.deleting = false;
           }
         });
-    }
+    
   }
 
   // --- Helpers para o template ---
@@ -204,4 +209,23 @@ export class VinculacaoFornecedorEmpresaComponent implements OnInit, OnDestroy {
     return this.vinculacaoForm.get('fornecedorId');
   }
 
+  confirmDesvinculacao(): void {
+     let empresaId = this.vinculacaoForm.get('empresaId')?.value;
+    if (this.fornecedorToDelete &&  empresaId) {
+      this.vinculacaoForm.get('empresaId')?.value;
+      this.executeDesvinculacao();
+      this.showDeleteModal = false;
+      this.fornecedorToDelete = null;
+    }
+  }
+
+  onDelete(fornecedor: FornecedorResponse): void {
+    this.fornecedorToDelete = fornecedor;
+    this.showDeleteModal = true;
+  }
+  cancelDelete(): void {  
+    this.showDeleteModal = false;
+    this.fornecedorToDelete = null;
+    this.errorMessage = null; // Limpa qualquer mensagem de erro ao cancelar    
+  }
 }
